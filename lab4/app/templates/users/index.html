@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>Список пользователей</h1>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>№</th>
+        <th>ФИО</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for user in users %}
+    <tr>
+        <td>{{ loop.index }}</td>
+        <td>{{ user.last_name }} {{ user.first_name }} {{ user.user_name }}</td>
+        <td>
+            <a class="btn btn-primary"href="{{url for('show', user_id=user.id)}}">Просмотр</a>
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>

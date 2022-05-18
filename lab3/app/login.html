@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<form class="container-fluid mt-5" method="POST" style="max-width: 20rem;">
+    <div class="form-floating mb-3">
+        <input autocomplete="off" type="text" class="form-control" id="login" placeholder="login" value="">
+        <label for="login">Логин</label>
+    </div>
+    <div class="form-floating mb-3">
+        <input type="text" class="form-control" id="pass" placeholder="pass" value="">
+        <label for="pass">Пароль</label>
+    </div>
+</form>

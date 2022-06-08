@@ -39,6 +39,15 @@
       <li class="nav-item {% if request.endpoint == 'headers' %} active {% endif %}">
         <a class="nav-link" href=" {{ url_for('headers') }}">Заголовки</a>
       </li>
+      <li class="nav-item {% if request.endpoint == 'cookies' %} active {% endif %}">
+        <a class="nav-link" href=" {{ url_for('cookies') }}">Cookies</a>
+      </li>
+      <li class="nav-item {% if request.endpoint == 'form' %} active {% endif %}">
+        <a class="nav-link" href=" {{ url_for('form') }}">Параметры формы</a>
+      </li>
+      <li class="nav-item {% if request.endpoint == 'check' %} active {% endif %}">
+        <a class="nav-link" href=" {{ url_for('check') }}">Номер телефона</a>
+      </li>
     </ul>
 
   </div>
@@ -56,7 +65,7 @@
 
 
 
-  <footer class="py-3 my-4" style="background-color: black;color: white; border-top: gray;">
+  <footer class="py-3 mt-4" style="background-color: black; color: white; border-top: gray;">
     <ul class="nav justify-content-center border-bottom pb-3 mb-3">
       <li class="nav-item mx-3">Ботокараев Кадыр Чыныбекович</li>
       <li class="nav-item mx-3">201-351</li>

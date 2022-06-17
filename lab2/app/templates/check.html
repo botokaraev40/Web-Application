@@ -19,66 +19,37 @@
 
 {% if request.method == 'POST' %}
 
-
-
-{% for phone_number, value in request.form.items() %}
-{% set counter = namespace(found=0) %}
-{% set symbol = namespace(found=0) %}
-{% set format_phone = namespace(found='') %}
-    {% set current_phone = value %}
-    {% if current_phone|length >= 10 %}
-        {% for i in range(current_phone|length) %}
-            {% if current_phone[i] == '0' or current_phone[i] == '1' or current_phone[i] == '2' or current_phone[i] == '3'
-            or current_phone[i] == '4' or current_phone[i] == '5' or current_phone[i] == '6' or current_phone[i] == '7'
-            or current_phone[i] == '8' or current_phone[i] == '9' %}
-
-                {% set counter.found = counter.found + 1 %}
-
-                {% set format_phone.found = format_phone.found + current_phone[i] %}
-
-            {% elif current_phone[i] != ' ' and current_phone[i] != '(' and current_phone[i] != '(' and current_phone[i] != ')'
-            and current_phone[i] != '-' and current_phone[i] != '.' and current_phone[i] != '+' %}
-
-                {% set symbol.found = symbol.found + 1 %}
-
-           {% elif current_phone[i] == '+' %}
-               {% set format_phone.found = format_phone.found + current_phone[i] %}
-
-           {% endif %}
-
-
-    {% endfor %}
-
-{% endif %}
-<p>{{ format_phone.found[0] }}</p>
-{% if format_phone.found[0] == '+' and format_phone.found[1] == '7' and counter.found != 11 %}
-    <div class="alert alert-danger my-3" role="alert">
-        Неверное количество цифр
-    </div>
-
-
-{% elif format_phone.found[0] == '8' and counter.found != 11 %}
-
-    <div class="alert alert-danger my-3" role="alert">
-        Неверное количество цифр
-    </div>
-{% elif counter.found != 10 and counter.found != 11 %}
-    <div class="alert alert-danger my-3" role="alert">
-        Неверное количество цифр
-    </div>
-{% endif %}
-
-{% if symbol.found != 0 %}
-
-
-    <div class="alert alert-danger" role="alert">
+{% if symbol != 0 %}
+    <div class="alert alert-danger mt-3" role="alert">
         Недопустимые символы
     </div>
 {% endif %}
 
 
+{% if phone_number[0] == '+' and phone_number[1] == '7' and counter != 11 %}
+    <div class="alert alert-danger my-3" role="alert">
+        Неверное количество цифр
+    </div>
 
-{% endfor %}
+
+{% elif phone_number[0] == '8' and counter != 11 %}
+
+    <div class="alert alert-danger mt-3" role="alert">
+        Неверное количество цифр
+    </div>
+{% elif counter != 10 and counter != 11 %}
+    <div class="alert alert-danger mt-3" role="alert">
+        Неверное количество цифр
+    </div>
+
+{% else %}
+    {% if symbol == 0 %}
+        <p>{{ format_number }}</p>
+    {% endif %}
+
+{% endif %}
+
+
 
 
 

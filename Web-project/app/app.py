@@ -50,7 +50,13 @@ def load_roles():
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    cursor = mysql.connection.cursor(named_tuple=True)
+    cursor.execute(
+        'SELECT name, genre_name, year_of_release, AVG(estimation) AS estimation, COUNT(reviews_id) AS counter FROM list_of_books GROUP BY name, genre_name, year_of_release;')
+    books = cursor.fetchall()
+
+    cursor.close()
+    return render_template('index.html', books=books)
 
 
 

@@ -15,13 +15,19 @@
             </tr>
         </thead>
         <tbody>
+        {% for book in books %}
             <tr>
-                <td>А</td>
-                <td>Б</td>
-                <td>В</td>
-                <td>Г</td>
-                <td>Д</td>
+                <td>{{ book.name }}</td>
+                <td>{{ book.genre_name }}</td>
+                <td>{{ book.year_of_release }}</td>
+                <td>{{ book.estimation }}</td>
+                <td>{{ book.counter or 0}}</td>
+
             </tr>
+            {% endfor %}
+
+
+
         </tbody>
     </table>
 {% endblock %}

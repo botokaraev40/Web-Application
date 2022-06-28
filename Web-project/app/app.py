@@ -51,10 +51,9 @@ def load_roles():
 @app.route('/')
 def index():
     cursor = mysql.connection.cursor(named_tuple=True)
-    cursor.execute(
-        'SELECT name, genre_name, year_of_release, AVG(estimation) AS estimation, COUNT(reviews_id) AS counter FROM list_of_books GROUP BY name, genre_name, year_of_release;')
+    cursor.execute('SELECT name, year_of_release, genre_name, AVG(estimation) AS estimation, COUNT(id) AS counters FROM list_of_books GROUP BY id, name, genre_name, year_of_release UNION SELECT name, year_of_release, genres_name, AVG(estimation) AS estimation, 0 FROM without_review GROUP BY id, name, genres_name, year_of_release;')
     books = cursor.fetchall()
-
+    print('ЭТА КНИГА::::', books)
     cursor.close()
     return render_template('index.html', books=books)
 

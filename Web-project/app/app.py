@@ -46,12 +46,24 @@ def load_roles():
 
     return roles
 
+@app.route('/<int:book_id>/show')
+def show(book_id):
+    cursor = mysql.connection.cursor(named_tuple=True)
+    cursor.execute('SELECT users.last_name, users.first_name, users.middle_name, reviews.estimation, reviews.letter FROM users, reviews WHERE reviews.books_id = %s AND users.id=reviews.users_id;', (book_id,))
+    reviews = cursor.fetchall()
 
+    cursor.execute('SELECT books.name, books.description, books.year_of_release, books.publishing, books.author, books.volume  FROM books, books_and_genres WHERE books.id=%s GROUP BY books.id;', (book_id,))
+    book = cursor.fetchone()
+
+    cursor.execute('SELECT genres.name FROM books, books_and_genres, genres WHERE books.id=%s AND books_and_genres.id_genres=genres.id GROUP BY genres.id;', (book_id,))
+    genre = cursor.fetchall()
+    cursor.close()
+    return render_template('show.html', genre=genre, book=book, reviews=reviews)
 
 @app.route('/')
 def index():
     cursor = mysql.connection.cursor(named_tuple=True)
-    cursor.execute('SELECT name, year_of_release, genre_name, AVG(estimation) AS estimation, COUNT(id) AS counters FROM list_of_books GROUP BY id, name, genre_name, year_of_release UNION SELECT name, year_of_release, genres_name, AVG(estimation) AS estimation, 0 FROM without_review GROUP BY id, name, genres_name, year_of_release;')
+    cursor.execute('SELECT id, name, year_of_release, genre_name, AVG(estimation) AS estimation, COUNT(id) AS counters FROM list_of_books GROUP BY id, name, genre_name, year_of_release UNION SELECT id, name, year_of_release, genres_name, AVG(estimation) AS estimation, 0 FROM without_review GROUP BY id, name, genres_name, year_of_release;')
     books = cursor.fetchall()
     print('ЭТА КНИГА::::', books)
     cursor.close()
@@ -102,12 +114,12 @@ def new():
 
 @app.route('/users/<int:user_id>/edit')
 @login_required
-def edit(user_id):
+def edit(book_id):
     cursor = mysql.connection.cursor(named_tuple=True)
-    cursor.execute('SELECT * FROM users WHERE id = %s;', (user_id,))
-    user = cursor.fetchone()
+    cursor.execute('SELECT * FROM books WHERE id = %s;', (book_id,))
+    book = cursor.fetchone()
     cursor.close()
-    return render_template('users/edit.html', user=user, roles=load_roles())
+    return render_template('users/edit.html', book=book)
 
 @app.route('/users/create', methods=['POST'])
 @login_required

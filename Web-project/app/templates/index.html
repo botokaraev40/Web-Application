@@ -23,6 +23,11 @@
                 <td>{{ book.estimation or '' }}</td>
                 <td>{{ book.counters }}</td>
 
+                <td>
+                    <div class="btn-group">
+                        <a class ="btn btn-primary" href="{{ url_for('show', book_id=book.id) }}">Просмотр</a>
+                    </div>
+                </td>
             </tr>
             {% endfor %}
 
@@ -30,4 +35,6 @@
 
         </tbody>
     </table>
+
+
 {% endblock %}
